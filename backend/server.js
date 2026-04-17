@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const projectRoutes = require('./routes/projectRoutes');
+const authRoutes = require('./routes/authRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const careerRoutes = require('./routes/careerRoutes');
 
 dotenv.config();
 
@@ -15,7 +18,10 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads')); // Serve uploaded files static
 
 // Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/career', careerRoutes);
 
 // Base route for health check
 app.get('/api/health', (req, res) => {
