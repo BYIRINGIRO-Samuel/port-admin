@@ -12,8 +12,8 @@ export default function Dashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-black italic tracking-tighter uppercase mb-2">System Overview</h2>
-        <p className="text-[10px] uppercase tracking-widest text-white/40">Real-time portfolio metrics</p>
+        <h2 className="text-2xl font-bold uppercase mb-2">Dashboard Overview</h2>
+        <p className="text-sm text-white/50">Quick metrics about your portfolio content</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -47,7 +47,7 @@ export default function Dashboard() {
           <div className="w-16 h-16 rounded-full border border-dashed border-white/20 mx-auto flex items-center justify-center mb-4 animate-[spin_10s_linear_infinite]">
             <div className="w-2 h-2 bg-white rounded-full" />
           </div>
-          <p className="text-[10px] font-black uppercase tracking-widest">Waiting for API Telemetry...</p>
+          <p className="text-sm font-bold uppercase tracking-widest">Loading portfolio data...</p>
         </div>
       </div>
     </div>
