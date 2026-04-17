@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Layout, Image as ImageIcon, Link as LinkIcon, Github, Save, Terminal, FileCode } from 'lucide-react';
+import { Plus, Layout, Image as ImageIcon, Link as LinkIcon, GitBranch, Save, Terminal, FileCode } from 'lucide-react';
 
 export default function Projects() {
   const [project, setProject] = useState({
@@ -111,7 +111,7 @@ export default function Projects() {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1">Github Repository</label>
                   <div className="relative group/input">
-                    <Github className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within/input:text-white transition-colors" />
+                    <GitBranch className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within/input:text-white transition-colors" />
                     <input 
                       type="url" 
                       placeholder="https://github.com/..."
