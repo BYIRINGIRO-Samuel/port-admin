@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Search, CheckCircle2, Trash2 } from 'lucide-react';
+import { Search, CheckCircle2, Trash2 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -39,15 +39,13 @@ export default function Messages() {
 
   const deleteMessage = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent triggering the read action
-    if (confirm('Are you sure you want to delete this message?')) {
-      try {
-        await axios.delete(`http://localhost:5001/api/messages/${id}`);
-        toast.success('Message deleted');
-        fetchMessages();
-      } catch (err) {
-        console.error(err);
-        toast.error('Failed to delete message');
-      }
+    try {
+      await axios.delete(`http://localhost:5001/api/messages/${id}`);
+      toast.success('Message deleted');
+      fetchMessages();
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to delete message');
     }
   };
 
@@ -60,38 +58,38 @@ export default function Messages() {
   });
 
   return (
-    <div className="space-y-8 h-full flex flex-col">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8 h-full flex flex-col pb-12">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold uppercase mb-2">Communications Log</h2>
-          <p className="text-sm text-white/50">Incoming messages from your portfolio contact form</p>
+          <h2 className="text-3xl font-black uppercase tracking-tight text-black mb-1">Communications Log</h2>
+          <p className="text-sm text-gray-500 font-medium">Incoming messages from your portfolio contact form</p>
         </div>
         
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+        <div className="relative w-full md:w-auto">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input 
             type="text" 
             placeholder="Search messages..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-[#0f0f0f] border border-white/10 rounded-full py-2.5 pl-10 pr-4 outline-none focus:border-white/30 text-sm w-64"
+            className="bg-white border border-gray-200 rounded-full py-3 pl-12 pr-6 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm w-full md:w-80 shadow-sm transition-all"
           />
         </div>
       </div>
 
-      <div className="bg-[#0f0f0f] border border-white/10 rounded-2xl overflow-hidden flex-1 flex flex-col min-h-[500px]">
-        <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 border-b border-white/10 bg-white/[0.02] text-xs font-bold text-white/40 uppercase tracking-widest">
-          <div className="w-12 text-center">Status</div>
+      <div className="bg-white border border-gray-200 rounded-3xl overflow-hidden flex-1 flex flex-col min-h-[500px] shadow-sm">
+        <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-5 border-b border-gray-200 bg-gray-50 text-xs font-black text-gray-500 uppercase tracking-widest">
+          <div className="w-16 text-center">Status</div>
           <div>Sender / Content</div>
-          <div className="w-24 text-right">Date</div>
-          <div className="w-10"></div>
+          <div className="w-28 text-right">Date</div>
+          <div className="w-12"></div>
         </div>
         
-        <div className="overflow-auto flex-1 p-2 space-y-2">
+        <div className="overflow-auto flex-1 p-3 space-y-2">
           {loading ? (
-            <p className="text-white/40 text-sm text-center py-10">Loading messages...</p>
+            <p className="text-gray-400 text-sm font-bold text-center py-12 uppercase tracking-widest">Loading messages...</p>
           ) : filteredMessages.length === 0 ? (
-            <p className="text-white/40 text-sm text-center py-10">No messages found.</p>
+            <p className="text-gray-400 text-sm font-bold text-center py-12 uppercase tracking-widest">No messages found.</p>
           ) : (
             filteredMessages.map((msg, i) => (
               <motion.div 
@@ -100,31 +98,31 @@ export default function Messages() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
                 onClick={() => markAsRead(msg._id, msg.read)}
-                className={`grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 rounded-xl items-center cursor-pointer border group ${msg.read ? 'bg-transparent border-transparent hover:bg-white/5' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}
+                className={`grid grid-cols-[auto_1fr_auto_auto] gap-4 p-5 rounded-2xl items-center cursor-pointer border-2 group transition-all duration-300 ${msg.read ? 'bg-transparent border-transparent hover:bg-gray-50' : 'bg-white border-blue-100 hover:border-blue-200 shadow-md'}`}
               >
-                <div className="w-12 flex justify-center">
+                <div className="w-16 flex justify-center">
                   {msg.read ? (
-                    <CheckCircle2 className="w-5 h-5 text-white/20" />
+                    <CheckCircle2 className="w-6 h-6 text-gray-300" />
                   ) : (
-                    <div className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/50">
-                      <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center border border-blue-200">
+                      <div className="w-3 h-3 rounded-full bg-blue-500 animate-pulse" />
                     </div>
                   )}
                 </div>
                 <div>
-                  <div className="flex items-center gap-3 mb-1">
-                    <h4 className="text-sm font-bold">{msg.name}</h4>
-                    <span className="text-xs text-white/40 bg-white/5 px-2 py-0.5 rounded border border-white/5">{msg.email}</span>
+                  <div className="flex items-center gap-3 mb-2">
+                    <h4 className={`text-base ${msg.read ? 'font-bold text-gray-500' : 'font-black text-black'}`}>{msg.name}</h4>
+                    <span className="text-xs font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded-lg border border-gray-200">{msg.email}</span>
                   </div>
-                  <p className={`text-sm ${msg.read ? 'text-white/40' : 'text-white/80'}`}>{msg.message}</p>
+                  <p className={`text-sm leading-relaxed ${msg.read ? 'text-gray-500 font-medium' : 'text-gray-800 font-bold'}`}>{msg.message}</p>
                 </div>
-                <div className="w-24 text-right text-xs text-white/40">
+                <div className={`w-28 text-right text-xs font-bold uppercase tracking-wider ${msg.read ? 'text-gray-400' : 'text-blue-500'}`}>
                   {new Date(msg.createdAt).toLocaleDateString()}
                 </div>
-                <div className="w-10 flex justify-end">
+                <div className="w-12 flex justify-end">
                   <button 
                     onClick={(e) => deleteMessage(msg._id, e)}
-                    className="p-2 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+                    className="p-2.5 text-gray-300 hover:text-white hover:bg-red-500 rounded-xl opacity-0 group-hover:opacity-100 transition-all shadow-sm"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
