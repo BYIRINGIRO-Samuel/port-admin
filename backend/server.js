@@ -6,6 +6,8 @@ const projectRoutes = require('./routes/projectRoutes');
 const authRoutes = require('./routes/authRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const careerRoutes = require('./routes/careerRoutes');
+const messageRoutes = require('./routes/messageRoutes');
+const statsRoutes = require('./routes/statsRoutes');
 
 dotenv.config();
 
@@ -22,6 +24,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/career', careerRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/stats', statsRoutes);
 
 // Base route for health check
 app.get('/api/health', (req, res) => {
