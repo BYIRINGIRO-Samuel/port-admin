@@ -30,39 +30,39 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-white font-sans p-4">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center text-black font-sans p-4">
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-8 text-center">
-            <div className="w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mb-4">
-                <ShieldCheck className="w-8 h-8 text-white/80" />
+            <div className="w-16 h-16 rounded-2xl border border-gray-200 bg-white flex items-center justify-center mb-4 shadow-sm">
+                <ShieldCheck className="w-8 h-8 text-black" />
             </div>
-            <h1 className="text-3xl font-bold uppercase tracking-tight">
-              Admin <span className="text-white/40">Login</span>
+            <h1 className="text-3xl font-black uppercase tracking-tight">
+              Admin <span className="text-gray-400">Login</span>
             </h1>
-            <p className="text-white/40 mt-2 text-sm">Please enter the administrator passcode to continue.</p>
+            <p className="text-gray-500 mt-2 text-sm">Please enter the administrator passcode to continue.</p>
         </div>
 
-        <div className="bg-[#0f0f0f] border border-white/10 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-xl">
             <form onSubmit={handleLogin} className="space-y-6">
                 <div>
-                    <label className="text-xs font-bold uppercase tracking-wider text-white/40 mb-2 block">Passcode</label>
+                    <label className="text-sm font-bold text-gray-500 mb-2 block">Passcode</label>
                     <input 
                         type="password" 
                         placeholder="Enter passcode..."
                         value={passcode}
                         onChange={(e) => setPasscode(e.target.value)}
-                        className="w-full bg-black border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-white/50 transition-colors"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl py-4 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
                     />
                 </div>
 
-                {error && <p className="text-red-500 text-sm font-medium">{error}</p>}
+                {error && <p className="text-red-500 text-sm font-bold">{error}</p>}
 
                 <button 
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-white text-black font-bold uppercase py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-200 transition-all disabled:opacity-50"
+                  className="w-full bg-black text-white font-bold uppercase py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-900 transition-all disabled:opacity-50"
                 >
-                  {loading ? 'Logging in...' : 'Login'}
+                  {loading ? 'Authenticating...' : 'Login'}
                   <ArrowRight className="w-4 h-4" />
                 </button>
             </form>
