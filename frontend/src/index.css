@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  background-color: #000;
-  color: #fff;
+  background-color: #fcfcfc;
+  color: #111;
 }
 
 body {
   margin: 0;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
