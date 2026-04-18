@@ -20,7 +20,7 @@ export default function AdminLayout() {
       </div>
 
       {/* Sidebar */}
-      <aside className="w-64 border-r border-gray-200 bg-white relative z-20 flex flex-col hidden md:flex shadow-sm">
+      <aside className="w-64 border-r border-gray-200 bg-white relative z-20 flex flex-col md:flex shadow-sm">
         <div className="p-6 border-b border-gray-100">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs font-bold tracking-widest text-gray-400 uppercase">Control Panel</span>
