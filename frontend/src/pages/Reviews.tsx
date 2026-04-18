@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, Star, ShieldCheck, X } from 'lucide-react';
+import { Plus, Trash2, Star, ShieldCheck, X, Edit2 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,6 +8,7 @@ export default function Reviews() {
   const [reviews, setReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [reviewData, setReviewData] = useState({
     name: '',
     role: '',
@@ -29,18 +30,40 @@ export default function Reviews() {
     }
   };
 
+  const openCreateModal = () => {
+    setEditingId(null);
+    setReviewData({ name: '', role: '', text: '', rating: 5, verified: true });
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (rev: any) => {
+    setEditingId(rev._id);
+    setReviewData({
+      name: rev.name,
+      role: rev.role,
+      text: rev.text,
+      rating: rev.rating,
+      verified: rev.verified
+    });
+    setIsModalOpen(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('http://localhost:5001/api/reviews', reviewData);
-      toast.success('Review successfully added!');
-      setReviewData({ name: '', role: '', text: '', rating: 5, verified: true });
+      if (editingId) {
+        await axios.put(`http://localhost:5001/api/reviews/${editingId}`, reviewData);
+        toast.success('Review successfully updated!');
+      } else {
+        await axios.post('http://localhost:5001/api/reviews', reviewData);
+        toast.success('Review successfully added!');
+      }
       setIsModalOpen(false);
       fetchReviews();
     } catch (err) {
       console.error(err);
-      toast.error('Failed to add review.');
+      toast.error(editingId ? 'Failed to update review.' : 'Failed to add review.');
     } finally {
       setLoading(false);
     }
@@ -62,10 +85,10 @@ export default function Reviews() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-black uppercase tracking-tight text-black mb-1">Manage Client Reviews</h2>
-          <p className="text-sm text-gray-500 font-medium">Add feedback from your clients to show on the portfolio.</p>
+          <p className="text-sm text-gray-500 font-medium">Add or edit feedback from your clients to show on the portfolio.</p>
         </div>
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={openCreateModal}
           className="bg-black text-white font-bold uppercase text-xs px-6 py-3 rounded-xl hover:bg-gray-800 transition-colors flex items-center gap-2 shadow-md"
         >
           <Plus className="w-4 h-4" />
@@ -91,9 +114,9 @@ export default function Reviews() {
 
               <div className="flex items-center gap-2 mb-8">
                 <div className="w-8 h-8 rounded-full bg-yellow-50 flex items-center justify-center">
-                  <Star className="w-4 h-4 text-yellow-500" />
+                  {editingId ? <Edit2 className="w-4 h-4 text-yellow-500" /> : <Star className="w-4 h-4 text-yellow-500" />}
                 </div>
-                <h3 className="text-2xl font-black text-black">New Review</h3>
+                <h3 className="text-2xl font-black text-black">{editingId ? 'Edit Review' : 'New Review'}</h3>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -124,7 +147,7 @@ export default function Reviews() {
                 </div>
 
                 <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-xl hover:bg-gray-800 transition-colors mt-8 shadow-md disabled:opacity-50">
-                  {loading ? 'Saving...' : 'Save Review'}
+                  {loading ? 'Saving...' : (editingId ? 'Save Changes' : 'Save Review')}
                 </button>
               </form>
             </motion.div>
@@ -140,14 +163,22 @@ export default function Reviews() {
         ) : (
           reviews.map((rev) => (
             <div key={rev._id} className="bg-white border border-gray-200 rounded-3xl p-6 relative group hover:shadow-xl transition-all duration-300 flex flex-col">
-              <button 
-                onClick={() => handleDelete(rev._id)}
-                className="absolute top-4 right-4 p-2 bg-red-500 hover:bg-red-600 text-white rounded-xl opacity-0 group-hover:opacity-100 transition-all shadow-lg translate-y-2 group-hover:translate-y-0"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
+              <div className="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button 
+                  onClick={() => openEditModal(rev)}
+                  className="p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-xl transition-colors shadow-sm"
+                >
+                  <Edit2 className="w-4 h-4" />
+                </button>
+                <button 
+                  onClick={() => handleDelete(rev._id)}
+                  className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-colors shadow-sm"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
               
-              <div className="flex items-center gap-1 mb-4 bg-gray-50 w-fit px-3 py-1.5 rounded-full border border-gray-100">
+              <div className="flex items-center gap-1 mb-4 bg-gray-50 w-fit px-3 py-1.5 rounded-full border border-gray-100 mt-2">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className={`w-3.5 h-3.5 ${i < rev.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
                 ))}
