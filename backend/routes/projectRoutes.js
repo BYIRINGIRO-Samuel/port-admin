@@ -69,4 +69,30 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// UPDATE a project
+router.put('/:id', upload.single('image'), async (req, res) => {
+  try {
+    const { name, category, shortDesc, tech, github, demo } = req.body;
+    let project = await Project.findById(req.params.id);
+    
+    if (!project) return res.status(404).json({ message: "Project not found" });
+
+    project.name = name || project.name;
+    project.category = category || project.category;
+    project.shortDesc = shortDesc || project.shortDesc;
+    project.tech = tech || project.tech;
+    project.github = github !== undefined ? github : project.github;
+    project.demo = demo !== undefined ? demo : project.demo;
+
+    if (req.file) {
+      project.imageUrl = `/uploads/${req.file.filename}`;
+    }
+
+    const updatedProject = await project.save();
+    res.json(updatedProject);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

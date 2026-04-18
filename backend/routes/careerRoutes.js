@@ -31,4 +31,13 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedCareer = await Career.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updatedCareer);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
