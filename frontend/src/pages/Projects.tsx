@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, Image as ImageIcon, X, ExternalLink, Github, Edit2 } from 'lucide-react';
+import { Plus, Trash2, Image as ImageIcon, X, ExternalLink, Code, Edit2 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -234,7 +234,7 @@ export default function Projects() {
                   <div className="flex gap-2">
                     {proj.github && (
                       <a href={proj.github} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:text-black hover:bg-gray-100 transition-colors">
-                        <Github className="w-4 h-4" />
+                        <Code className="w-4 h-4" />
                       </a>
                     )}
                     {proj.demo && (
