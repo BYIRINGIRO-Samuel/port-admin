@@ -30,4 +30,29 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Get Availability Status
+router.get('/availability', async (req, res) => {
+  try {
+    const admin = await Admin.findOne();
+    res.json({ isAvailable: admin ? admin.isAvailable : true });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Update Availability Status
+router.patch('/availability', async (req, res) => {
+  try {
+    const { isAvailable } = req.body;
+    const admin = await Admin.findOne();
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+
+    admin.isAvailable = isAvailable;
+    await admin.save();
+    res.json({ isAvailable: admin.isAvailable });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
