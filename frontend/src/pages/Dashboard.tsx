@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Users, MessageSquare, Briefcase, Activity, Power, PowerOff } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquare, Briefcase, Activity, Power, PowerOff, TrendingUp } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
     projects: 0,
     reviews: 0,
     messages: 0,
-    career: 0
+    career: 0,
+    visitsData: [] as any[]
   });
   const [loading, setLoading] = useState(true);
   const [isAvailable, setIsAvailable] = useState(true);
@@ -58,7 +60,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-12">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black uppercase tracking-tight text-black mb-1">Dashboard</h2>
@@ -122,8 +124,50 @@ export default function Dashboard() {
         })}
       </div>
       
-      {/* Visual filler for dashboard look */}
-      <div className="bg-black rounded-3xl p-8 min-h-[300px] flex flex-col relative overflow-hidden text-white shadow-xl mt-12">
+      {/* Analytics Graph Section */}
+      <div className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm mt-8">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-blue-50 rounded-xl">
+              <TrendingUp className="w-6 h-6 text-blue-600" />
+            </div>
+            <div>
+              <h3 className="text-xl font-black text-black">Portfolio Visits</h3>
+              <p className="text-sm text-gray-500 font-medium tracking-wide">Last 7 Days Traffic Overview</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="h-80 w-full">
+          {loading ? (
+            <div className="w-full h-full flex justify-center items-center">
+              <div className="w-10 h-10 border-4 border-gray-200 border-t-black rounded-full animate-spin" />
+            </div>
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={stats.visitsData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#000" stopOpacity={0.1}/>
+                    <stop offset="95%" stopColor="#000" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af', fontWeight: 700 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af', fontWeight: 700 }} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '16px', border: '1px solid #f3f4f6', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  itemStyle={{ color: '#000', fontWeight: 900 }}
+                />
+                <Area type="monotone" dataKey="views" stroke="#000" strokeWidth={3} fillOpacity={1} fill="url(#colorViews)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+      </div>
+      
+      {/* System Status Section */}
+      <div className="bg-black rounded-3xl p-8 min-h-[300px] flex flex-col relative overflow-hidden text-white shadow-xl mt-8">
         <div className="flex items-center gap-3 z-10 mb-2">
           <Activity className="w-6 h-6 text-white" />
           <h3 className="text-xl font-bold">System Diagnostics</h3>
