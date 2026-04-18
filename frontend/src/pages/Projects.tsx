@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, Image as ImageIcon, X, ExternalLink, Github } from 'lucide-react';
+import { Plus, Trash2, Image as ImageIcon, X, ExternalLink, Github, Edit2 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,6 +8,8 @@ export default function Projects() {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  
   const [projectData, setProjectData] = useState({
     name: '',
     category: '',
@@ -40,10 +42,32 @@ export default function Projects() {
     }
   };
 
+  const openCreateModal = () => {
+    setEditingId(null);
+    setProjectData({ name: '', category: '', shortDesc: '', tech: '', github: '', demo: '', image: null });
+    setPreview(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (proj: any) => {
+    setEditingId(proj._id);
+    setProjectData({
+      name: proj.name,
+      category: proj.category,
+      shortDesc: proj.shortDesc,
+      tech: proj.tech,
+      github: proj.github || '',
+      demo: proj.demo || '',
+      image: null
+    });
+    setPreview(`http://localhost:5001${proj.imageUrl}`);
+    setIsModalOpen(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!projectData.image) {
-      toast.error('Please upload an image for the project.');
+    if (!editingId && !projectData.image) {
+      toast.error('Please upload an image for the new project.');
       return;
     }
 
@@ -55,26 +79,34 @@ export default function Projects() {
     formData.append('tech', projectData.tech);
     formData.append('github', projectData.github);
     formData.append('demo', projectData.demo);
-    formData.append('image', projectData.image);
+    if (projectData.image) {
+      formData.append('image', projectData.image);
+    }
 
     try {
-      await axios.post('http://localhost:5001/api/projects', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      toast.success('Project successfully created!');
-      setProjectData({ name: '', category: '', shortDesc: '', tech: '', github: '', demo: '', image: null });
-      setPreview(null);
+      if (editingId) {
+        await axios.put(`http://localhost:5001/api/projects/${editingId}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        toast.success('Project successfully updated!');
+      } else {
+        await axios.post('http://localhost:5001/api/projects', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        toast.success('Project successfully created!');
+      }
       setIsModalOpen(false);
       fetchProjects();
     } catch (err) {
       console.error(err);
-      toast.error('Failed to upload project.');
+      toast.error(editingId ? 'Failed to update project.' : 'Failed to upload project.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     try {
       await axios.delete(`http://localhost:5001/api/projects/${id}`);
       toast.success('Project deleted');
@@ -90,10 +122,10 @@ export default function Projects() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-black uppercase tracking-tight text-black mb-1">Manage Projects</h2>
-          <p className="text-sm text-gray-500 font-medium">Add new projects to your portfolio or delete existing ones.</p>
+          <p className="text-sm text-gray-500 font-medium">Add new projects or edit existing ones.</p>
         </div>
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={openCreateModal}
           className="bg-black text-white font-bold uppercase text-xs px-6 py-3 rounded-xl hover:bg-gray-800 transition-colors flex items-center gap-2 shadow-md"
         >
           <Plus className="w-4 h-4" />
@@ -119,9 +151,9 @@ export default function Projects() {
 
               <div className="flex items-center gap-2 mb-8">
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
-                  <Plus className="w-4 h-4 text-blue-600" />
+                  {editingId ? <Edit2 className="w-4 h-4 text-blue-600" /> : <Plus className="w-4 h-4 text-blue-600" />}
                 </div>
-                <h3 className="text-2xl font-black text-black">New Project Form</h3>
+                <h3 className="text-2xl font-black text-black">{editingId ? 'Edit Project' : 'New Project Form'}</h3>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -158,9 +190,9 @@ export default function Projects() {
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Upload Thumbnail Image *</label>
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Upload Thumbnail Image {editingId && '(Leave blank to keep existing)'}</label>
                   <div className={`aspect-video rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center cursor-pointer relative overflow-hidden ${preview ? 'border-gray-300 bg-black' : 'border-gray-200 hover:border-gray-400 bg-gray-50 hover:bg-gray-100'}`}>
-                    <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={handleImageChange} required />
+                    <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={handleImageChange} required={!editingId} />
                     {preview ? (
                       <img src={preview} alt="Preview" className="w-full h-full object-cover" />
                     ) : (
@@ -173,7 +205,7 @@ export default function Projects() {
                 </div>
 
                 <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-xl hover:bg-gray-800 transition-colors mt-8 disabled:opacity-50 shadow-md">
-                  {loading ? 'Uploading Project...' : 'Save New Project'}
+                  {loading ? 'Processing...' : (editingId ? 'Save Changes' : 'Save New Project')}
                 </button>
               </form>
             </motion.div>
@@ -194,30 +226,41 @@ export default function Projects() {
               </div>
               <div className="p-6 flex-1 flex flex-col bg-white relative z-10">
                 <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-1">{proj.category}</span>
-                <h4 className="text-xl font-black mb-2 text-black">{proj.name}</h4>
+                <h4 className="text-xl font-black mb-2 text-indigo-600">{proj.name}</h4>
                 <p className="text-sm text-gray-500 line-clamp-3 mb-4">{proj.shortDesc}</p>
                 <div className="text-xs font-bold text-gray-400 bg-gray-50 p-3 rounded-xl border border-gray-100 mb-4">{proj.tech}</div>
                 
-                <div className="flex items-center gap-2 mt-auto pt-4 border-t border-gray-100">
-                  {proj.github && (
-                    <a href={proj.github} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:text-black hover:bg-gray-100 transition-colors">
-                      <Github className="w-4 h-4" />
-                    </a>
-                  )}
-                  {proj.demo && (
-                    <a href={proj.demo} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:text-black hover:bg-gray-100 transition-colors">
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  )}
+                <div className="flex items-center gap-2 mt-auto pt-4 border-t border-gray-100 justify-between">
+                  <div className="flex gap-2">
+                    {proj.github && (
+                      <a href={proj.github} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:text-black hover:bg-gray-100 transition-colors">
+                        <Github className="w-4 h-4" />
+                      </a>
+                    )}
+                    {proj.demo && (
+                      <a href={proj.demo} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:text-black hover:bg-gray-100 transition-colors">
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2">
+                    <button 
+                      onClick={() => openEditModal(proj)}
+                      className="p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors"
+                      title="Edit Project"
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </button>
+                    <button 
+                      onClick={(e) => handleDelete(proj._id, e)}
+                      className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
+                      title="Delete Project"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
-              <button 
-                onClick={() => handleDelete(proj._id)}
-                className="absolute top-4 right-4 p-2 bg-red-500 hover:bg-red-600 text-white rounded-xl opacity-0 group-hover:opacity-100 transition-all shadow-lg z-20 translate-y-2 group-hover:translate-y-0"
-                title="Delete Project"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
             </div>
           ))
         )}
