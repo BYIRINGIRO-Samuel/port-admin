@@ -29,10 +29,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/portfolio-admin', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/portfolio-admin')
 .then(() => {
   console.log('Connected to MongoDB');
   app.listen(PORT, () => {
