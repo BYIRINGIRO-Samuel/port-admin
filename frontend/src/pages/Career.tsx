@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Briefcase } from 'lucide-react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export default function Career() {
   const [entries, setEntries] = useState<any[]>([]);
@@ -30,12 +31,12 @@ export default function Career() {
     setLoading(true);
     try {
       await axios.post('http://localhost:5001/api/career', formData);
-      alert('Career entry successfully added!');
+      toast.success('Career entry successfully added!');
       setFormData({ role: '', company: '', period: '', description: '' });
       fetchEntries();
     } catch (err) {
       console.error(err);
-      alert('Failed to add career entry.');
+      toast.error('Failed to add career entry.');
     } finally {
       setLoading(false);
     }
@@ -45,9 +46,11 @@ export default function Career() {
     if (confirm('Are you sure you want to delete this career entry?')) {
       try {
         await axios.delete(`http://localhost:5001/api/career/${id}`);
+        toast.success('Career entry deleted');
         fetchEntries();
       } catch (err) {
         console.error(err);
+        toast.error('Failed to delete career entry');
       }
     }
   };

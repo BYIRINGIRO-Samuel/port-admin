@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Image as ImageIcon } from 'lucide-react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export default function Projects() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -40,7 +41,7 @@ export default function Projects() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!projectData.image) {
-      alert('Please upload an image for the project.');
+      toast.error('Please upload an image for the project.');
       return;
     }
 
@@ -58,13 +59,13 @@ export default function Projects() {
       await axios.post('http://localhost:5001/api/projects', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      alert('Project successfully created!');
+      toast.success('Project successfully created!');
       setProjectData({ name: '', category: '', shortDesc: '', tech: '', github: '', demo: '', image: null });
       setPreview(null);
       fetchProjects(); // Refresh the list
     } catch (err) {
       console.error(err);
-      alert('Failed to upload project.');
+      toast.error('Failed to upload project.');
     } finally {
       setLoading(false);
     }
@@ -74,10 +75,11 @@ export default function Projects() {
     if (confirm('Are you sure you want to delete this project?')) {
       try {
         await axios.delete(`http://localhost:5001/api/projects/${id}`);
+        toast.success('Project deleted');
         fetchProjects();
       } catch (err) {
         console.error(err);
-        alert('Failed to delete project.');
+        toast.error('Failed to delete project.');
       }
     }
   };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Star, ShieldCheck } from 'lucide-react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export default function Reviews() {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -31,12 +32,12 @@ export default function Reviews() {
     setLoading(true);
     try {
       await axios.post('http://localhost:5001/api/reviews', reviewData);
-      alert('Review successfully added!');
+      toast.success('Review successfully added!');
       setReviewData({ name: '', role: '', text: '', rating: 5, verified: true });
       fetchReviews();
     } catch (err) {
       console.error(err);
-      alert('Failed to add review.');
+      toast.error('Failed to add review.');
     } finally {
       setLoading(false);
     }
@@ -46,9 +47,11 @@ export default function Reviews() {
     if (confirm('Are you sure you want to delete this review?')) {
       try {
         await axios.delete(`http://localhost:5001/api/reviews/${id}`);
+        toast.success('Review deleted');
         fetchReviews();
       } catch (err) {
         console.error(err);
+        toast.error('Failed to delete review.');
       }
     }
   };
