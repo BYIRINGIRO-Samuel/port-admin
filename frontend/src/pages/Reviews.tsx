@@ -103,11 +103,11 @@ export default function Reviews() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white border border-gray-200 rounded-3xl p-8 w-full max-w-lg relative shadow-2xl"
+              className="bg-white border border-gray-200 rounded-none p-8 w-full max-w-lg relative shadow-2xl"
             >
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="absolute top-6 right-6 p-2 text-gray-400 hover:text-black bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+                className="absolute top-6 right-6 p-2 text-gray-400 hover:text-black bg-gray-50 hover:bg-gray-100 rounded-none transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -122,23 +122,23 @@ export default function Reviews() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Client Name *</label>
-                  <input required type="text" value={reviewData.name} onChange={e => setReviewData({...reviewData, name: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="e.g. John Doe" />
+                  <input required type="text" value={reviewData.name} onChange={e => setReviewData({...reviewData, name: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="e.g. John Doe" />
                 </div>
                 
                 <div>
                   <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Client Role/Company *</label>
-                  <input required type="text" value={reviewData.role} onChange={e => setReviewData({...reviewData, role: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="e.g. CEO of TechCorp" />
+                  <input required type="text" value={reviewData.role} onChange={e => setReviewData({...reviewData, role: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="e.g. CEO of TechCorp" />
                 </div>
 
                 <div>
                   <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Review Text *</label>
-                  <textarea required value={reviewData.text} onChange={e => setReviewData({...reviewData, text: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black h-32 resize-none transition-all" placeholder="What did the client say about your work?" />
+                  <textarea required value={reviewData.text} onChange={e => setReviewData({...reviewData, text: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black h-32 resize-none transition-all" placeholder="What did the client say about your work?" />
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200">
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-none border border-gray-200">
                   <div>
                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Rating (Out of 5)</label>
-                    <input type="number" min="1" max="5" value={reviewData.rating} onChange={e => setReviewData({...reviewData, rating: Number(e.target.value)})} className="w-20 bg-white border border-gray-200 rounded-lg py-2 px-3 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-center text-black" />
+                    <input type="number" min="1" max="5" value={reviewData.rating} onChange={e => setReviewData({...reviewData, rating: Number(e.target.value)})} className="w-20 bg-white border border-gray-200 rounded-none py-2 px-3 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-center text-black" />
                   </div>
                   <div className="flex items-center gap-2">
                     <input type="checkbox" id="verified" checked={reviewData.verified} onChange={e => setReviewData({...reviewData, verified: e.target.checked})} className="w-4 h-4 accent-black" />
@@ -146,7 +146,7 @@ export default function Reviews() {
                   </div>
                 </div>
 
-                <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-xl hover:bg-gray-800 transition-colors mt-8 shadow-md disabled:opacity-50">
+                <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-none hover:bg-gray-800 transition-colors mt-8 shadow-md disabled:opacity-50">
                   {loading ? 'Saving...' : (editingId ? 'Save Changes' : 'Save Review')}
                 </button>
               </form>

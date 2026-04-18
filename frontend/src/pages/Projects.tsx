@@ -140,17 +140,17 @@ export default function Projects() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white border border-gray-200 rounded-3xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto relative shadow-2xl"
+              className="bg-white border border-gray-200 rounded-none p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto relative shadow-2xl"
             >
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="absolute top-6 right-6 p-2 text-gray-400 hover:text-black bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+                className="absolute top-6 right-6 p-2 text-gray-400 hover:text-black bg-gray-50 hover:bg-gray-100 rounded-none transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
 
               <div className="flex items-center gap-2 mb-8">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-none bg-blue-50 flex items-center justify-center">
                   {editingId ? <Edit2 className="w-4 h-4 text-blue-600" /> : <Plus className="w-4 h-4 text-blue-600" />}
                 </div>
                 <h3 className="text-2xl font-black text-black">{editingId ? 'Edit Project' : 'New Project Form'}</h3>
@@ -160,38 +160,38 @@ export default function Projects() {
                 <div className="grid grid-cols-2 gap-5">
                   <div>
                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Project Name *</label>
-                    <input required type="text" value={projectData.name} onChange={e => setProjectData({...projectData, name: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="e.g. FoodFlow Application" />
+                    <input required type="text" value={projectData.name} onChange={e => setProjectData({...projectData, name: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="e.g. FoodFlow Application" />
                   </div>
                   <div>
                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Category *</label>
-                    <input required type="text" value={projectData.category} onChange={e => setProjectData({...projectData, category: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="e.g. Web Development" />
+                    <input required type="text" value={projectData.category} onChange={e => setProjectData({...projectData, category: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="e.g. Web Development" />
                   </div>
                 </div>
 
                 <div>
                   <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Full Description *</label>
-                  <textarea required value={projectData.shortDesc} onChange={e => setProjectData({...projectData, shortDesc: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black h-28 resize-none transition-all" placeholder="Explain what the project does..." />
+                  <textarea required value={projectData.shortDesc} onChange={e => setProjectData({...projectData, shortDesc: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black h-28 resize-none transition-all" placeholder="Explain what the project does..." />
                 </div>
 
                 <div>
                   <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Technologies Used *</label>
-                  <input required type="text" value={projectData.tech} onChange={e => setProjectData({...projectData, tech: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="React, Node.js, Tailwind (comma separated)" />
+                  <input required type="text" value={projectData.tech} onChange={e => setProjectData({...projectData, tech: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="React, Node.js, Tailwind (comma separated)" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-5">
                   <div>
                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">GitHub Link (Optional)</label>
-                    <input type="url" value={projectData.github} onChange={e => setProjectData({...projectData, github: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="https://github.com/..." />
+                    <input type="url" value={projectData.github} onChange={e => setProjectData({...projectData, github: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="https://github.com/..." />
                   </div>
                   <div>
                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Live Demo Link (Optional)</label>
-                    <input type="url" value={projectData.demo} onChange={e => setProjectData({...projectData, demo: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="https://..." />
+                    <input type="url" value={projectData.demo} onChange={e => setProjectData({...projectData, demo: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="https://..." />
                   </div>
                 </div>
 
                 <div>
                   <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Upload Thumbnail Image {editingId && '(Leave blank to keep existing)'}</label>
-                  <div className={`aspect-video rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center cursor-pointer relative overflow-hidden ${preview ? 'border-gray-300 bg-black' : 'border-gray-200 hover:border-gray-400 bg-gray-50 hover:bg-gray-100'}`}>
+                  <div className={`aspect-video rounded-none border-2 border-dashed transition-all flex flex-col items-center justify-center cursor-pointer relative overflow-hidden ${preview ? 'border-gray-300 bg-black' : 'border-gray-200 hover:border-gray-400 bg-gray-50 hover:bg-gray-100'}`}>
                     <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={handleImageChange} required={!editingId} />
                     {preview ? (
                       <img src={preview} alt="Preview" className="w-full h-full object-cover" />
@@ -204,7 +204,7 @@ export default function Projects() {
                   </div>
                 </div>
 
-                <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-xl hover:bg-gray-800 transition-colors mt-8 disabled:opacity-50 shadow-md">
+                <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-none hover:bg-gray-800 transition-colors mt-8 disabled:opacity-50 shadow-md">
                   {loading ? 'Processing...' : (editingId ? 'Save Changes' : 'Save New Project')}
                 </button>
               </form>
@@ -228,7 +228,13 @@ export default function Projects() {
                 <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-1">{proj.category}</span>
                 <h4 className="text-xl font-black mb-2 text-indigo-600">{proj.name}</h4>
                 <p className="text-sm text-gray-500 line-clamp-3 mb-4">{proj.shortDesc}</p>
-                <div className="text-xs font-bold text-gray-400 bg-gray-50 p-3 rounded-xl border border-gray-100 mb-4">{proj.tech}</div>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {proj.tech.split(',').map((t: string, idx: number) => (
+                    <span key={idx} className="text-[10px] font-bold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-sm uppercase tracking-wider border border-gray-200">
+                      {t.trim()}
+                    </span>
+                  ))}
+                </div>
                 
                 <div className="flex items-center gap-2 mt-auto pt-4 border-t border-gray-100 justify-between">
                   <div className="flex gap-2">
