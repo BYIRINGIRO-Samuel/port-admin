@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, Briefcase, X } from 'lucide-react';
+import { Plus, Trash2, Briefcase, X, Edit2 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,6 +8,7 @@ export default function Career() {
   const [entries, setEntries] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     role: '',
     company: '',
@@ -28,24 +29,46 @@ export default function Career() {
     }
   };
 
+  const openCreateModal = () => {
+    setEditingId(null);
+    setFormData({ role: '', company: '', period: '', description: '' });
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (entry: any) => {
+    setEditingId(entry._id);
+    setFormData({
+      role: entry.role,
+      company: entry.company,
+      period: entry.period,
+      description: entry.description
+    });
+    setIsModalOpen(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('http://localhost:5001/api/career', formData);
-      toast.success('Career entry successfully added!');
-      setFormData({ role: '', company: '', period: '', description: '' });
+      if (editingId) {
+        await axios.put(`http://localhost:5001/api/career/${editingId}`, formData);
+        toast.success('Career entry successfully updated!');
+      } else {
+        await axios.post('http://localhost:5001/api/career', formData);
+        toast.success('Career entry successfully added!');
+      }
       setIsModalOpen(false);
       fetchEntries();
     } catch (err) {
       console.error(err);
-      toast.error('Failed to add career entry.');
+      toast.error(editingId ? 'Failed to update career entry.' : 'Failed to add career entry.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     try {
       await axios.delete(`http://localhost:5001/api/career/${id}`);
       toast.success('Career entry deleted');
@@ -61,10 +84,10 @@ export default function Career() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-black uppercase tracking-tight text-black mb-1">Manage Career History</h2>
-          <p className="text-sm text-gray-500 font-medium">Add your past work experience to your timeline.</p>
+          <p className="text-sm text-gray-500 font-medium">Add or edit your past work experience on your timeline.</p>
         </div>
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={openCreateModal}
           className="bg-black text-white font-bold uppercase text-xs px-6 py-3 rounded-xl hover:bg-gray-800 transition-colors flex items-center gap-2 shadow-md"
         >
           <Plus className="w-4 h-4" />
@@ -90,9 +113,9 @@ export default function Career() {
 
               <div className="flex items-center gap-2 mb-8">
                 <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center">
-                  <Briefcase className="w-4 h-4 text-indigo-600" />
+                  {editingId ? <Edit2 className="w-4 h-4 text-indigo-600" /> : <Briefcase className="w-4 h-4 text-indigo-600" />}
                 </div>
-                <h3 className="text-2xl font-black text-black">Add Job Experience</h3>
+                <h3 className="text-2xl font-black text-black">{editingId ? 'Edit Job Experience' : 'Add Job Experience'}</h3>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -117,7 +140,7 @@ export default function Career() {
                 </div>
 
                 <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-xl hover:bg-gray-800 transition-colors mt-8 shadow-md disabled:opacity-50">
-                  {loading ? 'Saving...' : 'Add Career Entry'}
+                  {loading ? 'Saving...' : (editingId ? 'Save Changes' : 'Add Career Entry')}
                 </button>
               </form>
             </motion.div>
@@ -150,12 +173,22 @@ export default function Career() {
                 <p className="text-sm text-gray-600 leading-relaxed font-medium bg-gray-50 p-4 rounded-2xl border border-gray-100">{entry.description}</p>
               </div>
               
-              <button 
-                onClick={() => handleDelete(entry._id)}
-                className="absolute top-6 right-6 p-2 bg-red-500 hover:bg-red-600 text-white rounded-xl opacity-0 md:group-hover:opacity-100 transition-all shadow-lg translate-y-2 group-hover:translate-y-0"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
+              <div className="absolute top-6 right-6 flex items-center gap-2 opacity-0 md:group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                <button 
+                  onClick={() => openEditModal(entry)}
+                  className="p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-xl transition-colors shadow-sm"
+                  title="Edit entry"
+                >
+                  <Edit2 className="w-4 h-4" />
+                </button>
+                <button 
+                  onClick={(e) => handleDelete(entry._id, e)}
+                  className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-colors shadow-sm"
+                  title="Delete entry"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           ))
         )}
