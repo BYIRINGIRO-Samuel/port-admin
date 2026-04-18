@@ -61,12 +61,12 @@ export default function Reviews() {
     <div className="space-y-8 max-w-6xl mx-auto pb-12">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold uppercase mb-2">Manage Client Reviews</h2>
-          <p className="text-sm text-white/50">Add feedback from your clients to show on the portfolio.</p>
+          <h2 className="text-3xl font-black uppercase tracking-tight text-black mb-1">Manage Client Reviews</h2>
+          <p className="text-sm text-gray-500 font-medium">Add feedback from your clients to show on the portfolio.</p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="bg-white text-black font-bold uppercase text-xs px-6 py-3 rounded-xl hover:bg-gray-200 transition-colors flex items-center gap-2"
+          className="bg-black text-white font-bold uppercase text-xs px-6 py-3 rounded-xl hover:bg-gray-800 transition-colors flex items-center gap-2 shadow-md"
         >
           <Plus className="w-4 h-4" />
           Create Review
@@ -75,53 +75,55 @@ export default function Reviews() {
 
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#0f0f0f] border border-white/10 rounded-2xl p-6 w-full max-w-lg relative shadow-2xl"
+              className="bg-white border border-gray-200 rounded-3xl p-8 w-full max-w-lg relative shadow-2xl"
             >
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="absolute top-4 right-4 p-2 text-white/40 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors"
+                className="absolute top-6 right-6 p-2 text-gray-400 hover:text-black bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="flex items-center gap-2 mb-6">
-                <Plus className="w-5 h-5 text-white/50" />
-                <h3 className="text-lg font-bold">Add New Review</h3>
+              <div className="flex items-center gap-2 mb-8">
+                <div className="w-8 h-8 rounded-full bg-yellow-50 flex items-center justify-center">
+                  <Star className="w-4 h-4 text-yellow-500" />
+                </div>
+                <h3 className="text-2xl font-black text-black">New Review</h3>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label className="text-xs font-bold text-white/50 mb-1 block">Client Name *</label>
-                  <input required type="text" value={reviewData.name} onChange={e => setReviewData({...reviewData, name: e.target.value})} className="w-full bg-black border border-white/10 rounded-lg py-3 px-4 outline-none focus:border-white/50 text-sm" placeholder="e.g. John Doe" />
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Client Name *</label>
+                  <input required type="text" value={reviewData.name} onChange={e => setReviewData({...reviewData, name: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="e.g. John Doe" />
                 </div>
                 
                 <div>
-                  <label className="text-xs font-bold text-white/50 mb-1 block">Client Role/Company *</label>
-                  <input required type="text" value={reviewData.role} onChange={e => setReviewData({...reviewData, role: e.target.value})} className="w-full bg-black border border-white/10 rounded-lg py-3 px-4 outline-none focus:border-white/50 text-sm" placeholder="e.g. CEO of TechCorp" />
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Client Role/Company *</label>
+                  <input required type="text" value={reviewData.role} onChange={e => setReviewData({...reviewData, role: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black transition-all" placeholder="e.g. CEO of TechCorp" />
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-white/50 mb-1 block">Review Text *</label>
-                  <textarea required value={reviewData.text} onChange={e => setReviewData({...reviewData, text: e.target.value})} className="w-full bg-black border border-white/10 rounded-lg py-3 px-4 outline-none focus:border-white/50 text-sm h-32 resize-none" placeholder="What did the client say about your work?" />
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Review Text *</label>
+                  <textarea required value={reviewData.text} onChange={e => setReviewData({...reviewData, text: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black h-32 resize-none transition-all" placeholder="What did the client say about your work?" />
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200">
                   <div>
-                    <label className="text-xs font-bold text-white/50 mb-1 block">Rating (Out of 5)</label>
-                    <input type="number" min="1" max="5" value={reviewData.rating} onChange={e => setReviewData({...reviewData, rating: Number(e.target.value)})} className="w-20 bg-black border border-white/10 rounded-lg py-2 px-3 outline-none focus:border-white/50 text-sm text-center" />
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Rating (Out of 5)</label>
+                    <input type="number" min="1" max="5" value={reviewData.rating} onChange={e => setReviewData({...reviewData, rating: Number(e.target.value)})} className="w-20 bg-white border border-gray-200 rounded-lg py-2 px-3 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-center text-black" />
                   </div>
-                  <div className="flex items-center gap-2 mt-4">
-                    <input type="checkbox" id="verified" checked={reviewData.verified} onChange={e => setReviewData({...reviewData, verified: e.target.checked})} className="w-4 h-4" />
-                    <label htmlFor="verified" className="text-sm font-bold text-white/80">Show Verified Badge</label>
+                  <div className="flex items-center gap-2">
+                    <input type="checkbox" id="verified" checked={reviewData.verified} onChange={e => setReviewData({...reviewData, verified: e.target.checked})} className="w-4 h-4 accent-black" />
+                    <label htmlFor="verified" className="text-sm font-bold text-black cursor-pointer">Show Verified Badge</label>
                   </div>
                 </div>
 
-                <button type="submit" disabled={loading} className="w-full bg-white text-black font-bold uppercase py-4 rounded-xl hover:bg-gray-200 transition-colors mt-6 disabled:opacity-50">
+                <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-xl hover:bg-gray-800 transition-colors mt-8 shadow-md disabled:opacity-50">
                   {loading ? 'Saving...' : 'Save Review'}
                 </button>
               </form>
@@ -130,38 +132,38 @@ export default function Reviews() {
         )}
       </AnimatePresence>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {reviews.length === 0 ? (
-          <div className="col-span-full py-12 text-center border border-dashed border-white/10 rounded-xl">
-            <p className="text-white/40 text-sm">No reviews added yet.</p>
+          <div className="col-span-full py-16 text-center border-2 border-dashed border-gray-200 rounded-3xl bg-white">
+            <p className="text-gray-400 text-sm font-bold uppercase">No reviews added yet.</p>
           </div>
         ) : (
           reviews.map((rev) => (
-            <div key={rev._id} className="bg-[#0f0f0f] border border-white/10 rounded-xl p-5 relative group hover:border-white/20 transition-colors">
+            <div key={rev._id} className="bg-white border border-gray-200 rounded-3xl p-6 relative group hover:shadow-xl transition-all duration-300 flex flex-col">
               <button 
                 onClick={() => handleDelete(rev._id)}
-                className="absolute top-4 right-4 p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-all shadow-lg"
+                className="absolute top-4 right-4 p-2 bg-red-500 hover:bg-red-600 text-white rounded-xl opacity-0 group-hover:opacity-100 transition-all shadow-lg translate-y-2 group-hover:translate-y-0"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
               
-              <div className="flex items-center gap-1 mb-3">
+              <div className="flex items-center gap-1 mb-4 bg-gray-50 w-fit px-3 py-1.5 rounded-full border border-gray-100">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className={`w-3.5 h-3.5 ${i < rev.rating ? 'fill-white text-white' : 'text-white/20'}`} />
+                  <Star key={i} className={`w-3.5 h-3.5 ${i < rev.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
                 ))}
               </div>
 
-              <p className="text-sm text-white/70 italic mb-4 line-clamp-4">"{rev.text}"</p>
+              <p className="text-sm text-gray-600 italic mb-6 line-clamp-4 leading-relaxed font-medium">"{rev.text}"</p>
               
-              <div className="flex items-center justify-between border-t border-white/5 pt-3 mt-auto">
+              <div className="flex items-center justify-between border-t border-gray-100 pt-4 mt-auto">
                 <div>
-                  <h4 className="text-sm font-bold">{rev.name}</h4>
-                  <p className="text-xs text-white/40">{rev.role}</p>
+                  <h4 className="text-sm font-black text-black">{rev.name}</h4>
+                  <p className="text-xs font-medium text-gray-500">{rev.role}</p>
                 </div>
                 {rev.verified && (
-                  <div className="flex items-center gap-1 text-green-500 px-2 py-1 bg-green-500/10 rounded">
-                    <ShieldCheck className="w-3 h-3" />
-                    <span className="text-[10px] font-bold uppercase">Verified</span>
+                  <div className="flex items-center gap-1 text-green-600 px-2 py-1 bg-green-50 rounded-lg border border-green-200">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider">Verified</span>
                   </div>
                 )}
               </div>
