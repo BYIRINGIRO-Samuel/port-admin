@@ -6,7 +6,6 @@ import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import Messages from './pages/Messages';
 import Reviews from './pages/Reviews';
-import Services from './pages/Services';
 
 function App() {
   return (
@@ -20,7 +19,6 @@ function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="messages" element={<Messages />} />
           <Route path="reviews" element={<Reviews />} />
-          <Route path="services" element={<Services />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

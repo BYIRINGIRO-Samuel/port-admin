@@ -6,7 +6,6 @@ const path = require('path');
 const projectRoutes = require('./routes/projectRoutes');
 const authRoutes = require('./routes/authRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
-const serviceRoutes = require('./routes/serviceRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const statsRoutes = require('./routes/statsRoutes');
 
@@ -24,7 +23,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve u
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/reviews', reviewRoutes);
-app.use('/api/services', serviceRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/stats', statsRoutes);
 

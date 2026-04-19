@@ -10,7 +10,6 @@ export default function Dashboard() {
     projects: 0,
     reviews: 0,
     messages: 0,
-    career: 0,
     visitsData: [] as any[]
   });
   const [loading, setLoading] = useState(true);
@@ -56,7 +55,6 @@ export default function Dashboard() {
     { label: 'Total Projects', value: stats.projects, icon: LayoutDashboard },
     { label: 'Client Reviews', value: stats.reviews, icon: Users },
     { label: 'Unread Messages', value: stats.messages, icon: MessageSquare },
-    { label: 'ACTIVE SERVICES', value: stats.career, icon: LayoutDashboard },
   ];
 
   return (
@@ -96,7 +94,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {statCards.map((stat, i) => {
           const Icon = stat.icon;
           return (
