@@ -49,6 +49,13 @@ router.patch('/availability', async (req, res) => {
 
     admin.isAvailable = isAvailable;
     await admin.save();
+
+    // Emit real-time update
+    const io = req.app.get('socketio');
+    if (io) {
+      io.emit('availabilityUpdate', { isAvailable: admin.isAvailable });
+    }
+
     res.json({ isAvailable: admin.isAvailable });
   } catch (error) {
     res.status(500).json({ message: error.message });
