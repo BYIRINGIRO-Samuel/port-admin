@@ -18,7 +18,12 @@ export default function Reviews() {
   });
 
   useEffect(() => {
-    fetchReviews();
+    const initFetch = async () => {
+      setLoading(true);
+      await fetchReviews();
+      setLoading(false);
+    };
+    initFetch();
   }, []);
 
   const fetchReviews = async () => {
@@ -146,8 +151,13 @@ export default function Reviews() {
                   </div>
                 </div>
 
-                <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-none hover:bg-gray-800 transition-colors mt-8 shadow-md disabled:opacity-50">
-                  {loading ? 'Saving...' : (editingId ? 'Save Changes' : 'Save Review')}
+                <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-none hover:bg-gray-800 transition-colors mt-8 shadow-md disabled:opacity-50 flex items-center justify-center gap-3">
+                  {loading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                      Finalizing...
+                    </>
+                  ) : (editingId ? 'Save Changes' : 'Save Review')}
                 </button>
               </form>
             </motion.div>
@@ -156,7 +166,12 @@ export default function Reviews() {
       </AnimatePresence>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {reviews.length === 0 ? (
+        {loading && reviews.length === 0 ? (
+          <div className="col-span-full py-20 flex flex-col items-center justify-center gap-4">
+             <div className="w-12 h-12 border-4 border-gray-100 border-t-black rounded-full animate-spin" />
+             <p className="text-xs font-black uppercase tracking-widest text-gray-400">Verifying Endorsements...</p>
+          </div>
+        ) : reviews.length === 0 ? (
           <div className="col-span-full py-16 text-center border-2 border-dashed border-gray-200 rounded-3xl bg-white">
             <p className="text-gray-400 text-sm font-bold uppercase">No reviews added yet.</p>
           </div>
