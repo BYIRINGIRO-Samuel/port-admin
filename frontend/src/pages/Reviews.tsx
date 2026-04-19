@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Star, ShieldCheck, X, Edit2 } from 'lucide-react';
-import axios from 'axios';
+import api from '../api/axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -23,7 +23,7 @@ export default function Reviews() {
 
   const fetchReviews = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/reviews`);
+      const res = await api.get('/api/reviews');
       setReviews(res.data);
     } catch (err) {
       console.error(err);
@@ -53,10 +53,10 @@ export default function Reviews() {
     setLoading(true);
     try {
       if (editingId) {
-        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/reviews/${editingId}`, reviewData);
+        await api.put(`/api/reviews/${editingId}`, reviewData);
         toast.success('Review successfully updated!');
       } else {
-        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/reviews`, reviewData);
+        await api.post('/api/reviews', reviewData);
         toast.success('Review successfully added!');
       }
       setIsModalOpen(false);
@@ -71,7 +71,7 @@ export default function Reviews() {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/reviews/${id}`);
+      await api.delete(`/api/reviews/${id}`);
       toast.success('Review deleted');
       fetchReviews();
     } catch (err) {

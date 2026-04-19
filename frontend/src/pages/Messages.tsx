@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, CheckCircle2, Trash2 } from 'lucide-react';
-import axios from 'axios';
+import api from '../api/axios';
 import toast from 'react-hot-toast';
 
 export default function Messages() {
@@ -15,7 +15,7 @@ export default function Messages() {
 
   const fetchMessages = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/messages`);
+      const res = await api.get('/api/messages');
       setMessages(res.data);
     } catch (err) {
       console.error(err);
@@ -28,7 +28,7 @@ export default function Messages() {
   const markAsRead = async (id: string, currentlyRead: boolean) => {
     if (currentlyRead) return;
     try {
-      await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/messages/${id}/read`);
+      await api.patch(`/api/messages/${id}/read`);
       toast.success('Message marked as read');
       fetchMessages();
     } catch (err) {
@@ -40,7 +40,7 @@ export default function Messages() {
   const deleteMessage = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent triggering the read action
     try {
-      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/messages/${id}`);
+      await api.delete(`/api/messages/${id}`);
       toast.success('Message deleted');
       fetchMessages();
     } catch (err) {

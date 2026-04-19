@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { LayoutDashboard, Users, MessageSquare, Briefcase, Activity, Power, PowerOff, TrendingUp } from 'lucide-react';
-import axios from 'axios';
+import api from '../api/axios';
 import toast from 'react-hot-toast';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -21,8 +21,8 @@ export default function Dashboard() {
     const fetchDashboardData = async () => {
       try {
         const [statsRes, availRes] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/stats`),
-          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/auth/availability`)
+          api.get('/api/stats'),
+          api.get('/api/auth/availability')
         ]);
         setStats(statsRes.data);
         setIsAvailable(availRes.data.isAvailable);
@@ -39,7 +39,7 @@ export default function Dashboard() {
   const toggleAvailability = async () => {
     setAvailabilityLoading(true);
     try {
-      const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/availability`, {
+      const res = await api.patch('/api/auth/availability', {
         isAvailable: !isAvailable
       });
       setIsAvailable(res.data.isAvailable);

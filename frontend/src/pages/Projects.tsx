@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Image as ImageIcon, X, ExternalLink, Code, Edit2 } from 'lucide-react';
-import axios from 'axios';
+import api from '../api/axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -27,7 +27,7 @@ export default function Projects() {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/projects`);
+      const res = await api.get('/api/projects');
       setProjects(res.data);
     } catch (err) {
       console.error(err);
@@ -86,12 +86,12 @@ export default function Projects() {
 
     try {
       if (editingId) {
-        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/projects/${editingId}`, formData, {
+        await api.put(`/api/projects/${editingId}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
         toast.success('Project successfully updated!');
       } else {
-        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/projects`, formData, {
+        await api.post('/api/projects', formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
         toast.success('Project successfully created!');
@@ -109,7 +109,7 @@ export default function Projects() {
   const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/projects/${id}`);
+      await api.delete(`/api/projects/${id}`);
       toast.success('Project deleted');
       fetchProjects();
     } catch (err) {
