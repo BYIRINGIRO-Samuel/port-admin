@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Users, MessageSquare, Briefcase, Activity, Power, PowerOff, TrendingUp } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquare, Activity, Power, PowerOff, TrendingUp } from 'lucide-react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -56,7 +56,7 @@ export default function Dashboard() {
     { label: 'Total Projects', value: stats.projects, icon: LayoutDashboard },
     { label: 'Client Reviews', value: stats.reviews, icon: Users },
     { label: 'Unread Messages', value: stats.messages, icon: MessageSquare },
-    { label: 'Active Services', value: stats.career, icon: LayoutDashboard },
+    { label: 'ACTIVE SERVICES', value: stats.career, icon: LayoutDashboard },
   ];
 
   return (
