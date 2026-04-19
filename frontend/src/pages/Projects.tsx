@@ -3,6 +3,7 @@ import { Plus, Trash2, Image as ImageIcon, X, ExternalLink, Code, Edit2 } from '
 import api from '../api/axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FancyLoader, MiniLoader } from '../components/Loader';
 
 export default function Projects() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -213,8 +214,8 @@ export default function Projects() {
                 <button type="submit" disabled={loading} className="w-full bg-black text-white font-bold uppercase py-4 rounded-none hover:bg-gray-800 transition-colors mt-8 disabled:opacity-50 shadow-md flex items-center justify-center gap-3">
                   {loading ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                      Processing...
+                      <MiniLoader />
+                      Finalizing Sync...
                     </>
                   ) : (editingId ? 'Save Changes' : 'Save New Project')}
                 </button>
@@ -226,9 +227,8 @@ export default function Projects() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {loading && projects.length === 0 ? (
-          <div className="col-span-full py-20 flex flex-col items-center justify-center gap-4">
-             <div className="w-12 h-12 border-4 border-gray-100 border-t-black rounded-full animate-spin" />
-             <p className="text-xs font-black uppercase tracking-widest text-gray-400">Loading Intelligence...</p>
+          <div className="col-span-full py-20 flex flex-col items-center justify-center">
+             <FancyLoader label="Syncing Projects" />
           </div>
         ) : projects.length === 0 ? (
           <div className="col-span-full py-16 text-center border-2 border-dashed border-gray-200 rounded-3xl bg-white">

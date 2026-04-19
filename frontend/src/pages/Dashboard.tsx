@@ -4,6 +4,7 @@ import { LayoutDashboard, Users, MessageSquare, Activity, Power, PowerOff, Trend
 import api from '../api/axios';
 import toast from 'react-hot-toast';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { FancyLoader, MiniLoader } from '../components/Loader';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
@@ -70,8 +71,8 @@ export default function Dashboard() {
           <div>
             <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Current Status</p>
             {availabilityLoading ? (
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-gray-200 border-t-black rounded-full animate-spin" />
+              <div className="flex items-center gap-3">
+                <MiniLoader />
                 <p className="text-sm font-bold text-gray-400">Updating...</p>
               </div>
             ) : isAvailable ? (
@@ -117,7 +118,9 @@ export default function Dashboard() {
               <div>
                 <div className="h-10 flex items-center">
                   {loading ? (
-                    <div className="w-6 h-6 border-2 border-gray-200 border-t-black rounded-full animate-spin" />
+                    <div className="scale-50 -ml-8">
+                       <FancyLoader label="" />
+                    </div>
                   ) : (
                     <p className="text-4xl font-black tracking-tighter text-black mb-1">
                       {stat.value}
@@ -148,7 +151,7 @@ export default function Dashboard() {
         <div className="h-80 w-full">
           {loading ? (
             <div className="w-full h-full flex justify-center items-center">
-              <div className="w-10 h-10 border-4 border-gray-200 border-t-black rounded-full animate-spin" />
+              <FancyLoader label="Analyzing Traffic" />
             </div>
           ) : (
             <ResponsiveContainer width="100%" height="100%">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { FancyLoader } from '../components/Loader';
 import { Search, CheckCircle2, Trash2 } from 'lucide-react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
@@ -87,7 +88,9 @@ export default function Messages() {
         
         <div className="overflow-auto flex-1 p-3 space-y-2">
           {loading ? (
-            <p className="text-gray-400 text-sm font-bold text-center py-12 uppercase tracking-widest">Loading messages...</p>
+            <div className="flex flex-col items-center justify-center py-20 gap-4">
+               <FancyLoader label="Decrypting Logs" />
+            </div>
           ) : filteredMessages.length === 0 ? (
             <p className="text-gray-400 text-sm font-bold text-center py-12 uppercase tracking-widest">No messages found.</p>
           ) : (
