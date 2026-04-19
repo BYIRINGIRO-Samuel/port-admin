@@ -1,7 +1,7 @@
 const express = require('express');
 const Project = require('../models/Project');
 const Review = require('../models/Review');
-const Career = require('../models/Career');
+const Service = require('../models/Service');
 const Message = require('../models/Message');
 const Visit = require('../models/Visit');
 
@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
   try {
     const projectCount = await Project.countDocuments();
     const reviewCount = await Review.countDocuments();
-    const careerCount = await Career.countDocuments();
+    const serviceCount = await Service.countDocuments();
     const unreadMessagesCount = await Message.countDocuments({ read: false });
 
     // Get last 7 days of visits
@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
     res.json({
       projects: projectCount,
       reviews: reviewCount,
-      career: careerCount,
+      services: serviceCount,
       messages: unreadMessagesCount,
       visitsData: chartData.length > 0 ? chartData : [{ name: 'Today', views: 0 }]
     });

@@ -1,12 +1,12 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { ShieldCheck, LayoutDashboard, FolderKanban, MessageSquare, Star, Briefcase, LogOut } from 'lucide-react';
+import { ShieldCheck, LayoutDashboard, FolderKanban, MessageSquare, Star, Layout, LogOut } from 'lucide-react';
 
 const NAV_ITEMS = [
   { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
   { name: 'Projects', path: '/admin/projects', icon: FolderKanban },
   { name: 'Messages', path: '/admin/messages', icon: MessageSquare },
   { name: 'Reviews', path: '/admin/reviews', icon: Star },
-  { name: 'Career', path: '/admin/career', icon: Briefcase },
+  { name: 'Services', path: '/admin/services', icon: Layout },
 ];
 
 export default function AdminLayout() {
