@@ -27,7 +27,7 @@ export default function Projects() {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/projects');
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/projects`);
       setProjects(res.data);
     } catch (err) {
       console.error(err);
@@ -60,7 +60,8 @@ export default function Projects() {
       demo: proj.demo || '',
       image: null
     });
-    setPreview(`http://localhost:5001${proj.imageUrl}`);
+    const url = proj.imageUrl;
+    setPreview(url?.startsWith('http') || url?.startsWith('data:') ? url : `${import.meta.env.VITE_API_BASE_URL}${url}`);
     setIsModalOpen(true);
   };
 
@@ -85,12 +86,12 @@ export default function Projects() {
 
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/projects/${editingId}`, formData, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/projects/${editingId}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
         toast.success('Project successfully updated!');
       } else {
-        await axios.post('http://localhost:5001/api/projects', formData, {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/projects`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
         toast.success('Project successfully created!');
@@ -108,7 +109,7 @@ export default function Projects() {
   const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      await axios.delete(`http://localhost:5001/api/projects/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/projects/${id}`);
       toast.success('Project deleted');
       fetchProjects();
     } catch (err) {
@@ -222,7 +223,7 @@ export default function Projects() {
           projects.map((proj) => (
             <div key={proj._id} className="bg-white border border-gray-200 rounded-3xl overflow-hidden flex flex-col relative group shadow-sm hover:shadow-xl transition-all duration-300">
               <div className="w-full h-48 bg-gray-100 relative group-hover:scale-105 transition-transform duration-500">
-                <img src={`http://localhost:5001${proj.imageUrl}`} alt={proj.name} className="w-full h-full object-cover" />
+                <img src={proj.imageUrl?.startsWith('http') || proj.imageUrl?.startsWith('data:') ? proj.imageUrl : `${import.meta.env.VITE_API_BASE_URL}${proj.imageUrl}`} alt={proj.name} className="w-full h-full object-cover" />
               </div>
               <div className="p-6 flex-1 flex flex-col bg-white relative z-10">
                 <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-1">{proj.category}</span>
