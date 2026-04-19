@@ -43,6 +43,11 @@ router.post('/', upload.single('image'), async (req, res) => {
     });
 
     const savedProject = await newProject.save();
+
+    // Notify of changes
+    const io = req.app.get('socketio');
+    if (io) io.emit('projectsUpdate');
+
     res.status(201).json(savedProject);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -56,7 +61,10 @@ router.delete('/:id', async (req, res) => {
     if (!project) return res.status(404).json({ message: "Project not found" });
 
     await project.deleteOne();
-    // (Optional) Remove the uploaded file from the fs here using fs.unlink
+    
+    // Notify of changes
+    const io = req.app.get('socketio');
+    if (io) io.emit('projectsUpdate');
     
     res.json({ message: "Project deleted successfully" });
   } catch (error) {
@@ -85,6 +93,11 @@ router.put('/:id', upload.single('image'), async (req, res) => {
     }
 
     const updatedProject = await project.save();
+
+    // Notify of changes
+    const io = req.app.get('socketio');
+    if (io) io.emit('projectsUpdate');
+
     res.json(updatedProject);
   } catch (error) {
     res.status(500).json({ message: error.message });
