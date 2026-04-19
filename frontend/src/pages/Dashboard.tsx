@@ -21,8 +21,8 @@ export default function Dashboard() {
     const fetchDashboardData = async () => {
       try {
         const [statsRes, availRes] = await Promise.all([
-          axios.get('http://localhost:5001/api/stats'),
-          axios.get('http://localhost:5001/api/auth/availability')
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/stats`),
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/auth/availability`)
         ]);
         setStats(statsRes.data);
         setIsAvailable(availRes.data.isAvailable);
@@ -39,7 +39,7 @@ export default function Dashboard() {
   const toggleAvailability = async () => {
     setAvailabilityLoading(true);
     try {
-      const res = await axios.patch('http://localhost:5001/api/auth/availability', {
+      const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/availability`, {
         isAvailable: !isAvailable
       });
       setIsAvailable(res.data.isAvailable);

@@ -22,7 +22,7 @@ export default function Career() {
 
   const fetchEntries = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/career');
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/career`);
       setEntries(res.data);
     } catch (err) {
       console.error(err);
@@ -51,10 +51,10 @@ export default function Career() {
     setLoading(true);
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/career/${editingId}`, formData);
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/career/${editingId}`, formData);
         toast.success('Career entry successfully updated!');
       } else {
-        await axios.post('http://localhost:5001/api/career', formData);
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/career`, formData);
         toast.success('Career entry successfully added!');
       }
       setIsModalOpen(false);
@@ -70,7 +70,7 @@ export default function Career() {
   const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      await axios.delete(`http://localhost:5001/api/career/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/career/${id}`);
       toast.success('Career entry deleted');
       fetchEntries();
     } catch (err) {

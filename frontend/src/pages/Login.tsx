@@ -17,7 +17,7 @@ export default function Login() {
     setError('');
     
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/login', { passcode });
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, { passcode });
       if (res.data.token) {
         localStorage.setItem('adminToken', res.data.token);
         navigate('/admin');

@@ -23,7 +23,7 @@ export default function Reviews() {
 
   const fetchReviews = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/reviews');
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/reviews`);
       setReviews(res.data);
     } catch (err) {
       console.error(err);
@@ -53,10 +53,10 @@ export default function Reviews() {
     setLoading(true);
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/reviews/${editingId}`, reviewData);
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/reviews/${editingId}`, reviewData);
         toast.success('Review successfully updated!');
       } else {
-        await axios.post('http://localhost:5001/api/reviews', reviewData);
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/reviews`, reviewData);
         toast.success('Review successfully added!');
       }
       setIsModalOpen(false);
@@ -71,7 +71,7 @@ export default function Reviews() {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:5001/api/reviews/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/reviews/${id}`);
       toast.success('Review deleted');
       fetchReviews();
     } catch (err) {
