@@ -70,7 +70,10 @@ export default function Dashboard() {
           <div>
             <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Current Status</p>
             {availabilityLoading ? (
-              <p className="text-sm font-bold text-gray-400">Loading...</p>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-gray-200 border-t-black rounded-full animate-spin" />
+                <p className="text-sm font-bold text-gray-400">Updating...</p>
+              </div>
             ) : isAvailable ? (
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
@@ -112,9 +115,15 @@ export default function Dashboard() {
                 </div>
               </div>
               <div>
-                <p className="text-4xl font-black tracking-tighter text-black mb-1">
-                  {loading ? '-' : stat.value}
-                </p>
+                <div className="h-10 flex items-center">
+                  {loading ? (
+                    <div className="w-6 h-6 border-2 border-gray-200 border-t-black rounded-full animate-spin" />
+                  ) : (
+                    <p className="text-4xl font-black tracking-tighter text-black mb-1">
+                      {stat.value}
+                    </p>
+                  )}
+                </div>
                 <p className="text-[11px] font-bold uppercase tracking-widest text-gray-500">{stat.label}</p>
               </div>
             </motion.div>
