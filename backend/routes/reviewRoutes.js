@@ -16,6 +16,11 @@ router.post('/', async (req, res) => {
   try {
     const newReview = new Review(req.body);
     const savedReview = await newReview.save();
+    
+    // Notify of changes
+    const io = req.app.get('socketio');
+    if (io) io.emit('reviewsUpdate');
+
     res.status(201).json(savedReview);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -25,6 +30,11 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     await Review.findByIdAndDelete(req.params.id);
+
+    // Notify of changes
+    const io = req.app.get('socketio');
+    if (io) io.emit('reviewsUpdate');
+
     res.json({ message: 'Review deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -34,6 +44,11 @@ router.delete('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const updatedReview = await Review.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+    // Notify of changes
+    const io = req.app.get('socketio');
+    if (io) io.emit('reviewsUpdate');
+
     res.json(updatedReview);
   } catch (error) {
     res.status(500).json({ message: error.message });
