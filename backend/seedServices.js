@@ -6,32 +6,25 @@ dotenv.config();
 
 const initialServices = [
   {
-    title: "Full-Stack Orchestration",
-    description: "Architecting end-to-end applications with React, Next.js, and Node.js. Focused on performance, scalability, and clean code principles.",
-    icon: "Code2",
+    title: "Frontend Engineering",
+    description: "Architecting high-performance web applications using React and Next.js. I specialize in building scalable, interactive user interfaces with a focus on core web vitals and seamless user journeys.",
+    icon: "Monitor",
     size: "lg",
-    tags: ["Frontend", "Backend", "API"]
+    tags: ["React", "Next.js", "Performance"]
   },
   {
-    title: "Aesthetic UI/UX",
-    description: "Crafting immersive, high-fidelity interfaces using Framer Motion and Three.js for a premium user experience.",
-    icon: "Layout",
+    title: "Mobile App Development",
+    description: "Developing cross-platform mobile solutions that bridge the gap between native performance and complex functionality, ensuring a consistent brand experience.",
+    icon: "Smartphone",
     size: "md",
-    tags: ["Animation", "Design", "Interactions"]
+    tags: ["React Native", "Cross-Platform", "UX"]
   },
   {
-    title: "Data Integrity",
-    description: "Designing optimized MongoDB structures and secure data flows to ensure your application remains stable and lightning fast.",
-    icon: "Database",
+    title: "Machine Learning & AI",
+    description: "Integrating intelligent algorithms and predictive models into digital products to enhance automation, data analysis, and personalized user experiences.",
+    icon: "BrainCircuit",
     size: "md",
-    tags: ["MongoDB", "NoSQL", "Query Optimization"]
-  },
-  {
-    title: "Security & Auth",
-    description: "Implementing advanced JWT authentication systems and security protocols to protect user data and maintain trust.",
-    icon: "ShieldCheck",
-    size: "sm",
-    tags: ["Auth", "JWT", "Security"]
+    tags: ["AI", "Automation", "Data Modeling"]
   }
 ];
 

@@ -56,7 +56,7 @@ export default function Dashboard() {
     { label: 'Total Projects', value: stats.projects, icon: LayoutDashboard },
     { label: 'Client Reviews', value: stats.reviews, icon: Users },
     { label: 'Unread Messages', value: stats.messages, icon: MessageSquare },
-    { label: 'Career Entries', value: stats.career, icon: Briefcase },
+    { label: 'Active Services', value: stats.career, icon: LayoutDashboard },
   ];
 
   return (
