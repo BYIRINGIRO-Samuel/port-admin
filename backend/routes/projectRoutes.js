@@ -5,15 +5,8 @@ const Project = require('../models/Project');
 
 const router = express.Router();
 
-// Multer Storage Configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // unique filename
-  }
-});
+// Multer Memory Storage (No files saved to disk)
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // GET all projects
@@ -35,7 +28,9 @@ router.post('/', upload.single('image'), async (req, res) => {
       return res.status(400).json({ message: "Image upload is required" });
     }
 
-    const imageUrl = `/uploads/${req.file.filename}`;
+    // Convert binary buffer to Base64 string
+    const base64Image = req.file.buffer.toString('base64');
+    const imageUrl = `data:${req.file.mimetype};base64,${base64Image}`;
 
     const newProject = new Project({
       name,
@@ -85,7 +80,8 @@ router.put('/:id', upload.single('image'), async (req, res) => {
     project.demo = demo !== undefined ? demo : project.demo;
 
     if (req.file) {
-      project.imageUrl = `/uploads/${req.file.filename}`;
+      const base64Image = req.file.buffer.toString('base64');
+      project.imageUrl = `data:${req.file.mimetype};base64,${base64Image}`;
     }
 
     const updatedProject = await project.save();
