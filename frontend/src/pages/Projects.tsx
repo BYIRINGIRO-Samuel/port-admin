@@ -18,6 +18,7 @@ export default function Projects() {
     tech: '',
     github: '',
     demo: '',
+    behindTheBuild: '',
     image: null as File | null
   });
   const [preview, setPreview] = useState<string | null>(null);
@@ -50,7 +51,7 @@ export default function Projects() {
 
   const openCreateModal = () => {
     setEditingId(null);
-    setProjectData({ name: '', category: '', shortDesc: '', tech: '', github: '', demo: '', image: null });
+    setProjectData({ name: '', category: '', shortDesc: '', tech: '', github: '', demo: '', behindTheBuild: '', image: null });
     setPreview(null);
     setIsModalOpen(true);
   };
@@ -64,6 +65,7 @@ export default function Projects() {
       tech: proj.tech,
       github: proj.github || '',
       demo: proj.demo || '',
+      behindTheBuild: proj.behindTheBuild || '',
       image: null
     });
     const url = proj.imageUrl;
@@ -86,6 +88,7 @@ export default function Projects() {
     formData.append('tech', projectData.tech);
     formData.append('github', projectData.github);
     formData.append('demo', projectData.demo);
+    formData.append('behindTheBuild', projectData.behindTheBuild);
     if (projectData.image) {
       formData.append('image', projectData.image);
     }
@@ -177,7 +180,12 @@ export default function Projects() {
 
                 <div>
                   <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Full Description *</label>
-                  <textarea required value={projectData.shortDesc} onChange={e => setProjectData({...projectData, shortDesc: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black h-28 resize-none transition-all" placeholder="Explain what the project does..." />
+                  <textarea required value={projectData.shortDesc} onChange={e => setProjectData({...projectData, shortDesc: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-4 outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black h-24 resize-none transition-all" placeholder="Explain what the project does..." />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block text-blue-600">Behind the Build (The Mini Story) *</label>
+                  <textarea required value={projectData.behindTheBuild} onChange={e => setProjectData({...projectData, behindTheBuild: e.target.value})} className="w-full bg-blue-50/30 border border-blue-100 rounded-none py-3 px-4 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm text-black h-32 resize-none transition-all italic" placeholder="Built after realizing teams waste hours rewriting meeting notes manually..." />
                 </div>
 
                 <div>

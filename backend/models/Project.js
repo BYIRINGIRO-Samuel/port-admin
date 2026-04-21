@@ -8,6 +8,7 @@ const ProjectSchema = new mongoose.Schema({
   github: { type: String },
   demo: { type: String },
   imageUrl: { type: String, required: true },
+  behindTheBuild: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

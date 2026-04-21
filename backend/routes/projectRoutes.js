@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 // POST a new project
 router.post('/', upload.single('image'), async (req, res) => {
   try {
-    const { name, category, shortDesc, tech, github, demo } = req.body;
+    const { name, category, shortDesc, tech, github, demo, behindTheBuild } = req.body;
     
     if (!req.file) {
       return res.status(400).json({ message: "Image upload is required" });
@@ -39,7 +39,8 @@ router.post('/', upload.single('image'), async (req, res) => {
       tech,
       github,
       demo,
-      imageUrl
+      imageUrl,
+      behindTheBuild
     });
 
     const savedProject = await newProject.save();
@@ -75,7 +76,7 @@ router.delete('/:id', async (req, res) => {
 // UPDATE a project
 router.put('/:id', upload.single('image'), async (req, res) => {
   try {
-    const { name, category, shortDesc, tech, github, demo } = req.body;
+    const { name, category, shortDesc, tech, github, demo, behindTheBuild } = req.body;
     let project = await Project.findById(req.params.id);
     
     if (!project) return res.status(404).json({ message: "Project not found" });
@@ -86,6 +87,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
     project.tech = tech || project.tech;
     project.github = github !== undefined ? github : project.github;
     project.demo = demo !== undefined ? demo : project.demo;
+    project.behindTheBuild = behindTheBuild !== undefined ? behindTheBuild : project.behindTheBuild;
 
     if (req.file) {
       const base64Image = req.file.buffer.toString('base64');
