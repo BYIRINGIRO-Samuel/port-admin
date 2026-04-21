@@ -259,6 +259,14 @@ export default function Projects() {
                     </span>
                   ))}
                 </div>
+
+                {/* Narrative Status Indicator */}
+                <div className={`mb-4 p-2.5 rounded-xl border flex items-center justify-between ${proj.behindTheBuild ? 'bg-blue-50/50 border-blue-100' : 'bg-orange-50/50 border-orange-100'}`}>
+                   <span className={`text-[9px] font-black uppercase tracking-widest ${proj.behindTheBuild ? 'text-blue-600' : 'text-orange-600'}`}>
+                      Story: {proj.behindTheBuild ? 'Synced' : 'Pending'}
+                   </span>
+                   {proj.behindTheBuild && <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />}
+                </div>
                 
                 <div className="flex items-center gap-2 mt-auto pt-4 border-t border-gray-100 justify-between">
                   <div className="flex gap-2">

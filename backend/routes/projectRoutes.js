@@ -23,6 +23,7 @@ router.get('/', async (req, res) => {
 router.post('/', upload.single('image'), async (req, res) => {
   try {
     const { name, category, shortDesc, tech, github, demo, behindTheBuild } = req.body;
+    console.log("POST REQUEST BODY:", { name, behindTheBuild });
     
     if (!req.file) {
       return res.status(400).json({ message: "Image upload is required" });
@@ -40,7 +41,7 @@ router.post('/', upload.single('image'), async (req, res) => {
       github,
       demo,
       imageUrl,
-      behindTheBuild
+      behindTheBuild: behindTheBuild || ""
     });
 
     const savedProject = await newProject.save();
@@ -77,6 +78,8 @@ router.delete('/:id', async (req, res) => {
 router.put('/:id', upload.single('image'), async (req, res) => {
   try {
     const { name, category, shortDesc, tech, github, demo, behindTheBuild } = req.body;
+    console.log(`PUT REQUEST FOR ID ${req.params.id}:`, { name, behindTheBuild });
+
     let project = await Project.findById(req.params.id);
     
     if (!project) return res.status(404).json({ message: "Project not found" });
@@ -95,6 +98,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
     }
 
     const updatedProject = await project.save();
+    console.log("PROJECT UPDATED SUCCESSFULLY:", { id: updatedProject._id, behindTheBuild: updatedProject.behindTheBuild });
 
     // Notify of changes
     const io = req.app.get('socketio');
