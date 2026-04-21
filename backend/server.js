@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 5001;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files static
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
 // Make io accessible to our routes
 app.set('socketio', io);
