@@ -23,6 +23,7 @@ const io = new Server(server, {
   }
 });
 
+// Main server initialization - Narratives enabled
 const PORT = process.env.PORT || 5001;
 
 // Middleware
