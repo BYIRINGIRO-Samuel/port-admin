@@ -184,7 +184,7 @@ export default function Projects() {
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block text-blue-600">Behind the Build (The Mini Story) *</label>
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Behind the Build (The Mini Story) *</label>
                   <textarea required value={projectData.behindTheBuild} onChange={e => setProjectData({...projectData, behindTheBuild: e.target.value})} className="w-full bg-blue-50/30 border border-blue-100 rounded-none py-3 px-4 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm text-black h-32 resize-none transition-all italic" placeholder="Built after realizing teams waste hours rewriting meeting notes manually..." />
                 </div>
 
