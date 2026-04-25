@@ -19,6 +19,18 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET lightweight projects for resume (excludes large fields)
+router.get('/resume', async (req, res) => {
+  try {
+    const projects = await Project.find()
+      .select('name category shortDesc tech createdAt')
+      .sort({ createdAt: -1 });
+    res.json(projects);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // POST a new project
 router.post('/', upload.single('image'), async (req, res) => {
   try {
