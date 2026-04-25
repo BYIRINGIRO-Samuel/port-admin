@@ -11,6 +11,7 @@ const authRoutes = require('./routes/authRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const statsRoutes = require('./routes/statsRoutes');
+const careerRoutes = require('./routes/careerRoutes');
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/careers', careerRoutes);
 
 // Socket.io Connection Logic
 io.on('connection', (socket) => {
